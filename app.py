@@ -4,16 +4,16 @@ from PIL import Image
 from torchvision import models, transforms
 
 #Load the model
-# model = torch.load('model.pt', map_location=torch.device('cpu'))
-# model.eval()
+model = torch.load('model_best.pth', map_location=torch.device('cpu'))
+model.eval()
 
 # load the pre-trained model
-model = models.resnet18(pretrained=True)
-model.eval()
+# model = models.resnet18(pretrained=True)
+# model.eval()
 
 # Define the image transformations
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),
+    transforms.Resize((32, 32)),
     transforms.ToTensor(),
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
@@ -41,7 +41,7 @@ def predict(image):
 
 # Create the Streamlit app
 def main():
-    st.title('Image Classification')
+    st.title('Image Classification through Augmix learning - \n Srikhetra Mohanty (M21AIE260) & Rakesh Sahoo (M21AIE246)')
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
