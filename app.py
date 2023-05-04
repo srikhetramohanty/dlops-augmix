@@ -2,10 +2,124 @@ import torch
 import streamlit as st
 from PIL import Image
 from torchvision import models, transforms
+from allconv import *
 
 #Load the model
-model = torch.load('model_best.pth.tar', map_location=torch.device('cpu'))
+# model = torch.load('model_best.pth.tar', map_location=torch.device('cpu'))
+# model.load_state_dict(torch.load('model_best.pth.tar'))
 #model.eval()
+model = AllConvNet(num_classes=100)
+model.load_state_dict(torch.load('model_best.pth.tar', map_location=torch.device('cpu')),strict=False)
+
+fine_labels = [
+    'apple',  # id 0
+    'aquarium_fish',
+    'baby',
+    'bear',
+    'beaver',
+    'bed',
+    'bee',
+    'beetle',
+    'bicycle',
+    'bottle',
+    'bowl',
+    'boy',
+    'bridge',
+    'bus',
+    'butterfly',
+    'camel',
+    'can',
+    'castle',
+    'caterpillar',
+    'cattle',
+    'chair',
+    'chimpanzee',
+    'clock',
+    'cloud',
+    'cockroach',
+    'couch',
+    'crab',
+    'crocodile',
+    'cup',
+    'dinosaur',
+    'dolphin',
+    'elephant',
+    'flatfish',
+    'forest',
+    'fox',
+    'girl',
+    'hamster',
+    'house',
+    'kangaroo',
+    'computer_keyboard',
+    'lamp',
+    'lawn_mower',
+    'leopard',
+    'lion',
+    'lizard',
+    'lobster',
+    'man',
+    'maple_tree',
+    'motorcycle',
+    'mountain',
+    'mouse',
+    'mushroom',
+    'oak_tree',
+    'orange',
+    'orchid',
+    'otter',
+    'palm_tree',
+    'pear',
+    'pickup_truck',
+    'pine_tree',
+    'plain',
+    'plate',
+    'poppy',
+    'porcupine',
+    'possum',
+    'rabbit',
+    'raccoon',
+    'ray',
+    'road',
+    'rocket',
+    'rose',
+    'sea',
+    'seal',
+    'shark',
+    'shrew',
+    'skunk',
+    'skyscraper',
+    'snail',
+    'snake',
+    'spider',
+    'squirrel',
+    'streetcar',
+    'sunflower',
+    'sweet_pepper',
+    'table',
+    'tank',
+    'telephone',
+    'television',
+    'tiger',
+    'tractor',
+    'train',
+    'trout',
+    'tulip',
+    'turtle',
+    'wardrobe',
+    'whale',
+    'willow_tree',
+    'wolf',
+    'woman',
+    'worm']
+
+label_map = {}
+
+#Mapping fine labels to index
+for id_, label in enumerate(fine_labels):
+    label_map.update({id_:label})
+
+#print(model)
 
 # load the pre-trained model
 # model = models.resnet18(pretrained=True)
@@ -47,7 +161,8 @@ def main():
         image = Image.open(uploaded_file)
         st.image(image, caption='Uploaded Image', use_column_width=True)
         pred = predict(image)
-        st.write(f'Prediction: {pred}')
+        op_string = "The prediction is : " + str(pred)+ " -> " + str(label_map[pred])
+        st.write(f'Prediction: {op_string}')
 
 if __name__ == '__main__':
     main()
