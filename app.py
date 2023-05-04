@@ -4,7 +4,7 @@ from PIL import Image
 from torchvision import models, transforms
 
 #Load the model
-model = torch.load('model_best.pth', map_location=torch.device('cpu'))
+model = torch.load('model_best.pth.tar', map_location=torch.device('cpu'))
 model.eval()
 
 # load the pre-trained model
