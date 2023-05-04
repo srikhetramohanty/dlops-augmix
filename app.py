@@ -5,7 +5,7 @@ from torchvision import models, transforms
 
 #Load the model
 model = torch.load('model_best.pth.tar', map_location=torch.device('cpu'))
-model.eval()
+#model.eval()
 
 # load the pre-trained model
 # model = models.resnet18(pretrained=True)
