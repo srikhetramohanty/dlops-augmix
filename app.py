@@ -8,8 +8,21 @@ from allconv import *
 # model = torch.load('model_best.pth.tar', map_location=torch.device('cpu'))
 # model.load_state_dict(torch.load('model_best.pth.tar'))
 #model.eval()
+
+###########################################################################################################
+###########################################################################################################
 model = AllConvNet(num_classes=100)
-model.load_state_dict(torch.load('model_best.pth.tar', map_location=torch.device('cpu')),strict=False)
+#model.load_state_dict(torch.load('model_best.pth.tar', map_location=torch.device('cpu')),strict=False)
+checkpoint = torch.load('model_best_v2.pth.tar', map_location=torch.device('cpu'))
+dict_ = {}
+
+for k,v in checkpoint["state_dict"].items():
+    dict_.update({k.replace("module.",""):v})
+
+model.load_state_dict(dict_)    
+
+###########################################################################################################
+###########################################################################################################
 
 fine_labels = [
     'apple',  # id 0
